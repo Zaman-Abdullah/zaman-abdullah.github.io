@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md Abdullah Al Zaman</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+        header {
+            position: relative;
+            color: #fff;
+            padding: 50px 0;
+            text-align: center;
+            background: url('ban.jpg') no-repeat center center/cover;
+        }
+        header img {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            border: 3px solid #fff;
+            transition: transform 0.5s ease;
+        }
+        header img:hover {
+            transform: scale(1.1);
+        }
+        header h1 {
+            margin: 20px 0 10px;
+            font-size: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            animation: fadeInDown 1s ease;
+        }
+        header p {
+            margin: 0;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            animation: fadeInUp 1s ease;
+        }
+        .content-section {
+            display: none;
+            padding: 20px;
+            max-width: 100%;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideIn 0.7s ease;
+        }
+        nav .nav-link {
+            cursor: pointer;
+            color: #fff !important;
+            transition: color 0.3s;
+        }
+        nav .nav-link:hover {
+            color: #80d4ff !important;
+        }
+        footer {
+            background-color: #004d99;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            header p {
+                font-size: 0.9rem;
+            }
+            .navbar-nav {
+                flex-direction: row;
+                justify-content: center;
+            }
+            .nav-item {
+                padding: 0 10px;
+            }
+        }
+		
+		p {
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+  padding: 1rem 5rem; /* Add padding for margins */
+}
+
+
+table {
+  border-collapse: collapse;
+  width: auto; /* or specify a fixed width */
+  margin-left: 90px; /* Adjust the margin as needed */
+  margin-right: 90px; /* Adjust the margin as needed */
+}
+
+th, td {
+  border: 0px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.image-container {
+  width: 450px;
+  height: 450px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const target = document.querySelector(link.dataset.target);
+
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    target.classList.add('active');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <img src="z (1).jpg" alt="Your Photo">
+        <h1>Md. Abdullah Al Zaman</h1>
+        <p>Graduate Student</p>
+    </header>
+
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="font-size: 1.2rem;"> 
+    <div class="container-fluid">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" data-target="#about" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" data-target="#research" href="#">Research</a></li>
+            <li class="nav-item"><a class="nav-link" data-target="#media" href="#">Media Presence</a></li>
+            <li class="nav-item"><a class="nav-link" data-target="#blog" href="#">My Blog</a></li>
+            <li class="nav-item"><a class="nav-link" data-target="#tools" href="#">My Tools</a></li>
+            <li class="nav-item"><a class="nav-link" data-target="#cv" href="CV_Md_Abdullah_Al_Zaman.pdf">CV</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <section id="about" class="content-section active" style="text-align: center;">
+    <h1>About Me</h1>
+    <p style="text-align: justify;">Hi, I'm Md. Abdullah Al Zaman (Bengali Nickname: Proyash (প্রয়াস), meaning "Trying"). I am from Chattogram (formerly Chittagong), Bangladesh. Currently, I'm a Graduate Student in the Department of Physics and Astronomy at the University of Kansas। I am working with ExoLab led by Prof. Dr. Ian J. M. Crossfield on exoplanet research. Prior to this, I served as a Senior Lecturer and Lecturer in Physics at Northern University Bangladesh (NUB), Dhaka. I completed my B. Sc. and M. S. degrees in Physics from the University of Chittagong, Bangladesh.
+
+I'm passionate about studying Physics and Astronomy, along with recent technologies. In my free time, I enjoy writing, watching Sci-Fi and Superhero movies/series, reading books, and cooking.</p>
+</section>
+
+<section id="research" class="content-section" style="text-align: center;">
+  <h1>My Research</h1>
+  <p style="text-align: justify;">My current research focuses on areas like Astronomical Data Analysis, exoplanet detection, Parameters relevant to exoplanets, galaxy formation/morphology/Star Formation Rate/SED and so on. For the last 4-5 years My work has been revolving around Space radiation, Space Safety, designing effective radiation shields for space missions. I used tools such as GEANT4, OLTARIS, SPENVIS, SRIM, NSRL, X-COM, PHY_X/PSD,  and MATLAB. Here is a Concept cloud of my research from <a href= https://scixplorer.org/search?q=Al+Zaman%2C+Md+Abdullah&sort=score+desc&sort=date+desc&p=1>Science Explorer (NASA) </a> for the last few years, its not acurate but you will get some idea for sure </p> &nbsp; <img src="cc.png"> 
+  </section>
+
+<section id="media" class="content-section" style="text-align: center;">
+  <h2>Media Presence</h2> &nbsp;
+
+<table>
+  
+  <tbody>
+    <tr>
+      <td>Seminar on Impact of Artificial Intelligence on Education and Industries, 31st July 2023 on <a href= https://youtu.be/1TJM-R_Unn0?si=PYLei_wwIeEwtDPn>Channel 24</a>, also published in <a href= https://www.somoynews.tv/news/2023-08-01/z0zEtNw1>Somoy TV online</a> </td>
+      <td>
+        <div class="image-container">
+          <img src="mp1.png" alt="Image 1">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>About Predatory Journals and their consequences on <a href= https://www.youtube.com/watch?v=oFTStQUB8sE&t=2s>Drik News</a>
+      <td>
+        <div class="image-container">
+          <img src="2.png" alt="Image 2">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>My Article about number of research publications from Bangladesh over the years, Published in<a href= https://www.tbsnews.net/thoughts/judging-quantity-how-well-bangladesh-faring-research-505990>The Business Standard</a> </td>
+      <td>
+        <div class="image-container">
+          <img src="3.png" alt="Image 3">
+        </div>
+      </td>
+    </tr>
+	
+	<tr>
+      <td>Workshop on MATLAB, 31st July 2022 on <a href= https://youtu.be/ilZPZtcCHBs>Channel 24</a>, also published in <a href= https://www.somoynews.tv/news/2022-07-31/%E0%A6%A8%E0%A6%B0%E0%A7%8D%E0%A6%A6%E0%A6%BE%E0%A6%A8-%E0%A6%87%E0%A6%89%E0%A6%A8%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%B8%E0%A6%BF%E0%A6%9F%E0%A6%BF%E0%A6%A4%E0%A7%87-%E0%A6%AE%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%9F%E0%A6%B2%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%AC-%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%8B%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%BE%E0%A6%AE%E0%A6%BF%E0%A6%82-%E0%A6%95%E0%A6%B0%E0%A7%8D%E0%A6%AE%E0%A6%B6%E0%A6%BE%E0%A6%B2%E0%A6%BE-%E0%A6%85%E0%A6%A8%E0%A7%81%E0%A6%B7%E0%A7%8D%E0%A6%A0%E0%A6%BF%E0%A6%A4>Somoy TV online</a> </td>
+      <td>
+        <div class="image-container">
+          <img src="4.png" alt="Image 3">
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</section>
+	
+	
+
+<section id="blog" class="content-section" style="text-align: center;">
+  <h1>My BlogPosts</h1>
+  
+  <ul class="list-inline">
+  <li class="list-inline-item"><a class="text-white" href="https://archive.roar.media/author/alzaman"><img src="roar.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://bigganjatra.org/writer/proyash-zaman/"><img src="bj.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://cuprw18.wixsite.com/home/research-blog"><img src="cuprw.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://bigganblog.org/author/alzaman/"><img src="bb.png"></a></li>
+</ul>
+  
+  
+  </section>
+
+<section id="tools" class="content-section" style="text-align: center;">
+  <h1>My Tools</h1>
+  <p style="text-align: justify;">Actually, I have lost most of my codes. The followings are some of the tools that I have programmed/Developed over the years</p>
+  
+  <table>
+  
+  <tbody>
+    <tr>
+      <td>The CSV Plotter tool collects all the headers/variables from a CSV file (That you have uploaded) and can generate Scatter plot and Histogram<a href= csv.html>Click here</a>
+	  <td>
+        <div class="image-container">
+          <img src="pcsv.png" alt="Image 1">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>For my Master's Thesis I developed 'SMES-PCC' which stands for Superconducting magnetic energy
+storage(SMES) parameter calculation and characteristics. It is programmed/Developed for both the solenoid and
+toroid configuration. This program is developed in Microsoft visual Studio 2010.This program is also capable of
+showing relationship between several parameters. <a href= SMES-PCC.exe >Download the .exe file from here</a> Also you can read the paper describing the equations,flowchart and UI for this software from <a href= https://myjms.mohe.gov.my/index.php/masshp/article/view/4917 >here</a>
+      <td>
+        <div class="image-container">
+          <img src="smes.png" alt="Image 2">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Department 2.0 is an Androids app.It was developed in 2015-2016 using Apache Cordova. Used and loved by many students of Department of Physics at the University of Chittagong, Bangladesh. <a href= SMES-PCC.exe >Download the .apk file from here</a>. It will not work in current versions of Androids probably. It contains the entire syllabus (1st year to Masters) of the Department, contact no of the Faculty members, library assistance and much more. After I left University of Chittagong, Some of my juniors have developed a better version of this which is available on Google Playstore</td>
+      <td>
+        <div class="image-container">
+          <img src="d2.png" alt="Image 3">
+        </div>
+      </td>
+    </tr>
+	
+	<tr>
+      <td>Emergency Bangladesh is/was an android app containing most of the Emergency contact information (like Hospitals, Police Station, FireService, Ambulance), Maps, Blood Donors etc. in Bangladesh upto 2017. It was selected as one of the top 30 apps (out of 500) in EATL Prothom Alo Apps Challenge 2016, lead sponsor: The World Bank, Supported by :Canda Government and ICT division,Bangladesh. The EATL appstore is still showing this app but the source file (.apk) is not available. Also probably it will not run in most of the android smartphones as I did not update the version </td>
+      <td>
+        <div class="image-container">
+          <img src="eb.png" alt="Image 3">
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+  
+</section>
+
+<section id="cv" class="content-section" style="text-align: center;">
+  <h1>My CV</h1>
+  <p style="text-align: justify;"> Download my CV <a href="CV_Md_Abdullah_Al_Zaman.pdf">here</a>.</p>
+</section>
+
+    <footer
+        <ul class="list-inline">
+		<p>
+  <span style="position: absolute; left: 50%; transform: translateX(-50%);">Links</span>
+  
+</p>
+  <li class="list-inline-item"><a class="text-white" href="https://www.researchgate.net/profile/Md-Abdullah-Al-Zaman-2"><img src="rg.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://scholar.google.com/citations?user=ZsWJDS0AAAAJ&hl=en"><img src="gs.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://ui.adsabs.harvard.edu/search/p_=0&q=author%3A%22Al%20Zaman%2C%20Md.%20Abdullah%22&sort=date%20desc%2C%20bibcode%20desc"><img src="ads.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://www.scopus.com/authid/detail.uri?authorId=57218371656&fbclid=IwZXh0bgNhZW0CMTAAAR1K1VEVI8nh0q4vN_sRZk4j6g5NadLMCZ14B2WaoOcPvAG-A8bK7GG0N9Y_aem_x5DrV0ERg_6vwou3PCBmag"><img src="sc.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://www.linkedin.com/in/proyash1/"><img src="in.jpg"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://orcid.org/0000-0002-3696-2127"><img src="orcid.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://github.com/Zaman-Abdullah"><img src="gh.png"></a></li>
+    <li class="list-inline-item"><a class="text-white" href="https://www.webofscience.com/wos/author/record/GRJ-7208-2022?fbclid=IwZXh0bgNhZW0CMTAAAR0Admt84h2CjZ1wpPLTcc7OLxaevDSAz--9eISqGjfvo0sOpONeSGH9LeE_aem_VlDmqI2u4doDu-mS1JKXoA"><img src="ws.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://www.facebook.com/alzaman11"><img src="fb.jpg"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://www.youtube.com/@md.abdullahalzaman6291"><img src="yt.png"></a></li>
+  <li class="list-inline-item"><a class="text-white" href="https://x.com/ProyashZaman"><img src="x.png"></a></li>
+</ul>
+        <p><span style="position: absolute; left: 50%; transform: translateX(-50%);">&copy; 2025 Md. Abdullah Al Zaman </span></p>
+    </footer>
+</body>
+</html>

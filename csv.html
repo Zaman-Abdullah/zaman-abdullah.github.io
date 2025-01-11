@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Plotter</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSV Plotter</h1>
+        <div class="form-group">
+            <label for="csvFile">Upload CSV File:</label>
+            <input type="file" id="csvFile" accept=".csv">
+        </div>
+        <h2>Scatter Plot</h2>
+        <div class="form-group">
+            <label for="xVariable">Select X Variable:</label>
+            <select id="xVariable"></select>
+            <label><input type="checkbox" id="xLogScale"> Log Scale</label>
+        </div>
+        <div class="form-group">
+            <label for="yVariable">Select Y Variable:</label>
+            <select id="yVariable"></select>
+            <label><input type="checkbox" id="yLogScale"> Log Scale</label>
+        </div>
+        <div class="form-group">
+            <label for="chartTitle">Chart Title:</label>
+            <input type="text" id="chartTitle" placeholder="Enter chart title">
+        </div>
+        <div class="form-group">
+            <label for="xAxisLabel">X Axis Label:</label>
+            <input type="text" id="xAxisLabel" placeholder="Enter X axis label">
+        </div>
+        <div class="form-group">
+            <label for="yAxisLabel">Y Axis Label:</label>
+            <input type="text" id="yAxisLabel" placeholder="Enter Y axis label">
+        </div>
+        <div class="form-group">
+            <label for="legendPosition">Legend Position:</label>
+            <select id="legendPosition">
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+            </select>
+        </div>
+        <button id="scatterPlotButton">Plot Scatter Plot</button>
+
+        <h2>Histogram</h2>
+        <div class="form-group">
+            <label for="histVariable">Select Variable for Histogram:</label>
+            <select id="histVariable"></select>
+        </div>
+        <button id="histogramButton">Plot Histogram</button>
+
+        <button id="saveButton">Save Plot</button>
+        <canvas id="chartCanvas" width="800" height="400"></canvas>
+    </div>
+
+    <script>
+        const csvFileInput = document.getElementById('csvFile');
+        const xVariableSelect = document.getElementById('xVariable');
+        const yVariableSelect = document.getElementById('yVariable');
+        const histVariableSelect = document.getElementById('histVariable');
+        const chartCanvas = document.getElementById('chartCanvas');
+        const scatterPlotButton = document.getElementById('scatterPlotButton');
+        const histogramButton = document.getElementById('histogramButton');
+        const saveButton = document.getElementById('saveButton');
+        const chartTitleInput = document.getElementById('chartTitle');
+        const xAxisLabelInput = document.getElementById('xAxisLabel');
+        const yAxisLabelInput = document.getElementById('yAxisLabel');
+        const legendPositionSelect = document.getElementById('legendPosition');
+        const xLogScaleCheckbox = document.getElementById('xLogScale');
+        const yLogScaleCheckbox = document.getElementById('yLogScale');
+
+        let csvData = [];
+        let chart;
+
+        csvFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    parseCSV(content);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function parseCSV(content) {
+            const lines = content.split('\n').filter(line => line.trim() !== '');
+            const headers = lines[0].split(',');
+            csvData = lines.slice(1).map(line => {
+                const values = line.split(',');
+                const obj = {};
+                headers.forEach((header, index) => {
+                    const trimmedHeader = header.trim();
+                    const value = values[index]?.trim();
+                    obj[trimmedHeader] = isNaN(value) ? value : parseFloat(value);
+                });
+                return obj;
+            });
+
+            populateDropdowns(headers);
+        }
+
+        function populateDropdowns(headers) {
+            xVariableSelect.innerHTML = '';
+            yVariableSelect.innerHTML = '';
+            histVariableSelect.innerHTML = '';
+
+            headers.forEach(header => {
+                const optionX = document.createElement('option');
+                const optionY = document.createElement('option');
+                const optionHist = document.createElement('option');
+                optionX.value = optionY.value = optionHist.value = header.trim();
+                optionX.textContent = optionY.textContent = optionHist.textContent = header.trim();
+                xVariableSelect.appendChild(optionX);
+                yVariableSelect.appendChild(optionY);
+                histVariableSelect.appendChild(optionHist);
+            });
+        }
+
+        scatterPlotButton.addEventListener('click', () => {
+            const xVar = xVariableSelect.value;
+            const yVar = yVariableSelect.value;
+            const xAxisLabel = xAxisLabelInput.value || xVar;
+            const yAxisLabel = yAxisLabelInput.value || yVar;
+            const chartTitle = chartTitleInput.value || 'Scatter Plot';
+            const legendPosition = legendPositionSelect.value;
+            const useXLogScale = xLogScaleCheckbox.checked;
+            const useYLogScale = yLogScaleCheckbox.checked;
+
+            const xData = csvData.map(row => row[xVar]);
+            const yData = csvData.map(row => row[yVar]);
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(chartCanvas, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: `${yVar} vs ${xVar}`,
+                        data: xData.map((x, i) => ({ x: x, y: yData[i] })),
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: chartTitle
+                        },
+                        legend: {
+                            position: legendPosition
+                        },
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'xy'
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'xy'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: useXLogScale ? 'logarithmic' : 'linear',
+                            title: {
+                                display: true,
+                                text: xAxisLabel
+                            }
+                        },
+                        y: {
+                            type: useYLogScale ? 'logarithmic' : 'linear',
+                            title: {
+                                display: true,
+                                text: yAxisLabel
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        histogramButton.addEventListener('click', () => {
+            const histVar = histVariableSelect.value;
+            const chartTitle = `Histogram of ${histVar}`;
+
+            const histData = csvData.map(row => row[histVar]).filter(value => !isNaN(value));
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            const binCounts = calculateBins(histData);
+
+            chart = new Chart(chartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: binCounts.labels,
+                    datasets: [{
+                        label: histVar,
+                        data: binCounts.data,
+                        backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: chartTitle
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: histVar
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Frequency'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        function calculateBins(data, numBins = 10) {
+            const min = Math.min(...data);
+            const max = Math.max(...data);
+            const binSize = (max - min) / numBins;
+
+            const bins = Array(numBins).fill(0);
+            const labels = [];
+
+            for (let i = 0; i < numBins; i++) {
+                labels.push(`${(min + i * binSize).toFixed(2)} - ${(min + (i + 1) * binSize).toFixed(2)}`);
+            }
+
+            data.forEach(value => {
+                const binIndex = Math.min(Math.floor((value - min) / binSize), numBins - 1);
+                bins[binIndex]++;
+            });
+
+            return { labels, data: bins };
+        }
+
+        saveButton.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'chart.png';
+            link.href = chartCanvas.toDataURL();
+            link.click();
+        });
+    </script>
+</body>
+</html>
