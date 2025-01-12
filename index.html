@@ -24,8 +24,8 @@
         }
         header img {
             border-radius: 50%;
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border: 3px solid #fff;
             transition: transform 0.5s ease;
         }
@@ -53,7 +53,7 @@
         .content-section {
             display: none;
             padding: 20px;
-            max-width: 100%;
+            max-width: 90%;
             margin: auto;
             background: #fff;
             border-radius: 10px;
@@ -120,58 +120,44 @@
                 font-size: 0.9rem;
             }
             .navbar-nav {
-                flex-direction: row;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
             }
-            .nav-item {
-                padding: 0 10px;
+            .content-section {
+                padding: 15px;
+            }
+            table {
+                margin: auto;
+                width: 100%;
             }
         }
-		
-		p {
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  text-align: justify;
-  padding: 1rem 5rem; /* Add padding for margins */
-}
-
-
-table {
-  border-collapse: collapse;
-  width: auto; /* or specify a fixed width */
-  margin-left: 90px; /* Adjust the margin as needed */
-  margin-right: 90px; /* Adjust the margin as needed */
-}
-
-th, td {
-  border: 0px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-.image-container {
-  width: 450px;
-  height: 450px;
-  overflow: hidden;
-  position: relative;
-}
-
-.image-container img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 100%;
-  max-height: 100%;
-}
-
-
-
-
+        p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .image-container {
+            max-width: 100%;
+            height: auto;
+            overflow: hidden;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -179,13 +165,14 @@ th {
             const sections = document.querySelectorAll('.content-section');
 
             navLinks.forEach(link => {
-                link.addEventListener('click', () => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
                     const target = document.querySelector(link.dataset.target);
 
                     sections.forEach(section => {
                         section.classList.remove('active');
                     });
-                    target.classList.add('active');
+                    if (target) target.classList.add('active');
                 });
             });
         });
@@ -198,20 +185,19 @@ th {
         <p>Graduate Student</p>
     </header>
 
-   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="font-size: 1.2rem;"> 
-    <div class="container-fluid">
-        <ul class="navbar-nav mx-auto">
-            <li class="nav-item"><a class="nav-link" data-target="#about" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" data-target="#research" href="#">Research</a></li>
-            <li class="nav-item"><a class="nav-link" data-target="#media" href="#">Media Presence</a></li>
-            <li class="nav-item"><a class="nav-link" data-target="#blog" href="#">My Blog</a></li>
-            <li class="nav-item"><a class="nav-link" data-target="#tools" href="#">My Tools</a></li>
-            <li class="nav-item"><a class="nav-link" data-target="#cv" href="CV_Md_Abdullah_Al_Zaman.pdf">CV</a></li>
-        </ul>
-    </div>
-</nav>
-
-    <section id="about" class="content-section active" style="text-align: center;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" data-target="#about" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" data-target="#research" href="#">Research</a></li>
+                <li class="nav-item"><a class="nav-link" data-target="#media" href="#">Media Presence</a></li>
+                <li class="nav-item"><a class="nav-link" data-target="#blog" href="#">My Blog</a></li>
+                <li class="nav-item"><a class="nav-link" data-target="#tools" href="#">My Tools</a></li>
+                <li class="nav-item"><a class="nav-link" data-target="#cv" href="CV_Md_Abdullah_Al_Zaman.pdf">CV</a></li>
+            </ul>
+        </div>
+    </nav>
+<section id="about" class="content-section active" style="text-align: center;">
     <h1>About Me</h1>
     <p style="text-align: justify;">Hi, I'm Md. Abdullah Al Zaman (Bengali Nickname: Proyash (প্রয়াস), meaning "Trying"). I am from Chattogram (formerly Chittagong), Bangladesh. Currently, I'm a Graduate Student in the Department of Physics and Astronomy at the University of Kansas। I am working with ExoLab led by Prof. Dr. Ian J. M. Crossfield on exoplanet research. Prior to this, I served as a Senior Lecturer and Lecturer in Physics at Northern University Bangladesh (NUB), Dhaka. I completed my B. Sc. and M. S. degrees in Physics from the University of Chittagong, Bangladesh.
 
@@ -355,5 +341,7 @@ showing relationship between several parameters. <a href= SMES-PCC.exe >Download
 </ul>
         <p><span style="position: absolute; left: 50%; transform: translateX(-50%);">&copy; 2025 Md. Abdullah Al Zaman </span></p>
     </footer>
+</body>
+</html>
 </body>
 </html>
