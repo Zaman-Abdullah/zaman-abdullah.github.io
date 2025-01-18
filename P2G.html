@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2G: Digitize your Plot</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #333;
+        }
+        .copyright {
+            font-size: 0.9em;
+            color: #777;
+        }
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .refresh-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .refresh-button:hover {
+            background-color: #0056b3;
+        }
+        .upload-section {
+            margin-bottom: 20px;
+        }
+        .axis-setup-section, .calibration-section, .data-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e9ecef; 
+        }
+        h3 {
+            color: #333; 
+        }
+        label {
+            display: block; 
+            margin-bottom: 5px; 
+        }
+        input[type="file"], input[type="number"] {
+            width: calc(100% - 10px);
+            padding: 8px; 
+            margin-bottom: 10px; 
+            border-radius: 4px; 
+            border: 1px solid #ccc; 
+        }
+        button {
+            padding: 10px 15px; 
+            border-radius: 5px; 
+            border: none; 
+            background-color: #28a745; 
+            color: white; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease; 
+        }
+        button:hover {
+            background-color: #218838; 
+        }
+        table {
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        th, td {
+            padding: 10px; 
+            text-align: left; 
+            border-bottom: 1px solid #ddd; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="Logo" style="max-width: 70%; height: auto;">
+			
+            
+        </div>
+
+        
+<h5>Upload your plot/image here (.jpg, .png, .gif only)</h5>
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept="image/*">
+        </div>
+
+        <div class="axis-setup-section">
+            <h3>Axis Setup</h3>
+            <div class="scale-type">
+                <label>
+                    <input type="checkbox" id="xLogScale"> X-axis Logarithmic
+                </label>
+                <label>
+                    <input type="checkbox" id="yLogScale"> Y-axis Logarithmic
+                </label>
+            </div>
+            
+			<div class="calibration-instructions">
+                <p>Please click on the following points (in the image below) in order:</p>
+                <ol>
+                    <li id="xStartInstruction">X-axis start point</li>
+                    <li id="xEndInstruction">X-axis end point</li>
+                    <li id="yStartInstruction">Y-axis start point</li>
+                    <li id="yEndInstruction">Y-axis end point</li>
+                </ol>
+			</div>
+		</div>
+
+		<div class="calibration-section">
+			<h3>Axis Values</h3>
+			<div class="axis-inputs">
+				<div>
+					<label>X-axis Start Value:</label>
+					<input type="number" id="xMin" step="any">
+					<label>X-axis End Value:</label>
+					<input type="number" id="xMax" step="any">
+				</div>
+				<div>
+					<label>Y-axis Start Value:</label>
+					<input type="number" id="yMin" step="any">
+					<label>Y-axis End Value:</label>
+					<input type="number" id="yMax" step="any">
+				</div>
+			</div>
+			<button id="setCalibration">Set Calibration</button>
+		</div>
+
+		<div class="canvas-container">
+			<canvas id="plotCanvas"></canvas>
+		</div>
+		<div class="button-container">
+            <button id="refreshApp" class="refresh-button">Refresh</button>
+        </div>
+
+		<div class="data-section">
+			<h3>Extracted Points</h3>
+			<div id="pointsTable">
+				<table>
+					<thead>
+						<tr>
+							<th>Point</th>
+							<th>X</th>
+							<th>Y</th>
+						</tr>
+					</thead>
+					<tbody id="pointsBody"></tbody>
+				</table>
+			</div>
+			<button id="exportExcel">Export to Excel</button>
+	    </div>
+
+    </div>
+	
+	
+ <h3>Copyright © Md Abdullah Al Zaman <a href=https://zaman-abdullah.github.io/home/>     Visit my Site</a></h3>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
+
