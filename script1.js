@@ -1,5 +1,6 @@
 let primaryData = null;
 let secondaryData = null;
+let unmatchedData = [];
 
 const primaryFile = document.getElementById("primaryFile");
 const secondaryFile = document.getElementById("secondaryFile");
@@ -7,6 +8,7 @@ const mergeKeySelect = document.getElementById("mergeKey");
 const mergeButton = document.getElementById("mergeButton");
 const refreshButton = document.getElementById("refreshButton");
 const loader = document.getElementById("loader");
+const unmatchedButton = document.getElementById("downloadUnmatchedButton");
 
 // Show/hide loader
 function showLoader(show) {
@@ -77,7 +79,7 @@ function tryEnableMerge() {
   }
 }
 
-// Populate merge key options based on shared columns
+// Populate merge key options
 function populateMergeKeys() {
   if (!primaryData || !secondaryData) return;
   const primaryCols = Object.keys(primaryData[0] || {});
@@ -141,34 +143,44 @@ mergeButton.addEventListener("click", () => {
     return match ? { ...row, ...match } : null;
   }).filter(r => r !== null);
 
-  const missing = primaryData.filter(row =>
+  unmatchedData = primaryData.filter(row =>
     !secondaryData.some(r => (r[key] || "").toString().trim() === (row[key] || "").toString().trim())
   );
 
-  showResults(merged, missing);
+  showResults(merged, unmatchedData);
   showLoader(false);
 });
 
-// Show merged results
-function showResults(merged, missing) {
+// Show merged and unmatched results
+function showResults(merged, unmatched) {
   document.getElementById("resultsArea").classList.remove("hidden");
   document.getElementById("summary").innerHTML = `
     <p><strong>Merged Rows:</strong> ${merged.length}</p>
-    <p><strong>Missing Matches:</strong> ${missing.length}</p>
+    <p><strong>Unmatched Rows:</strong> ${unmatched.length}</p>
   `;
 
   const warnings = document.getElementById("warnings");
   warnings.innerHTML = "";
-  if (missing.length > 0) {
+  if (unmatched.length > 0) {
     const warnBox = document.createElement("div");
     warnBox.className = "warning";
-    warnBox.textContent = `${missing.length} rows from primary file had no match in the secondary file.`;
+    warnBox.textContent = `${unmatched.length} rows from primary file had no match in the secondary file.`;
     warnings.appendChild(warnBox);
   }
 
-  renderTablePreview(merged.slice(0, 10));
+  renderTablePreview(merged.slice(0, 10), "previewTable");
+  
+  if (unmatched.length > 0) {
+    document.getElementById("unmatchedHeader").classList.remove("hidden");
+    document.getElementById("downloadUnmatchedButton").classList.remove("hidden");
+    renderTablePreview(unmatched.slice(0, 10), "unmatchedTable");
+  } else {
+    document.getElementById("unmatchedHeader").classList.add("hidden");
+    document.getElementById("downloadUnmatchedButton").classList.add("hidden");
+    document.getElementById("unmatchedTable").innerHTML = "";
+  }
 
-  // Setup download
+  // Setup merged download
   document.getElementById("downloadButton").onclick = () => {
     const csv = Papa.unparse(merged);
     const blob = new Blob([csv], { type: "text/csv" });
@@ -179,11 +191,19 @@ function showResults(merged, missing) {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  // Setup unmatched download (Excel)
+  unmatchedButton.onclick = () => {
+    const ws = XLSX.utils.json_to_sheet(unmatched);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Unmatched");
+    XLSX.writeFile(wb, "unmatched_rows.xlsx");
+  };
 }
 
 // Preview table
-function renderTablePreview(data) {
-  const container = document.getElementById("previewTable");
+function renderTablePreview(data, containerId) {
+  const container = document.getElementById(containerId);
   container.innerHTML = "";
 
   if (!data.length) {
@@ -225,13 +245,17 @@ refreshButton.addEventListener("click", () => {
   secondaryFile.value = "";
   primaryData = null;
   secondaryData = null;
+  unmatchedData = [];
   mergeKeySelect.innerHTML = "<option disabled selected>Upload files to populate</option>";
   mergeKeySelect.disabled = true;
   document.getElementById("primaryFileName").textContent = "";
   document.getElementById("secondaryFileName").textContent = "";
   document.getElementById("resultsArea").classList.add("hidden");
   document.getElementById("previewTable").innerHTML = "";
+  document.getElementById("unmatchedTable").innerHTML = "";
   document.getElementById("summary").innerHTML = "";
   document.getElementById("warnings").innerHTML = "";
+  document.getElementById("unmatchedHeader").classList.add("hidden");
+  document.getElementById("downloadUnmatchedButton").classList.add("hidden");
   mergeButton.disabled = true;
 });
