@@ -95,6 +95,7 @@ input[type="file"] {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-top: 0.75rem;
 }
 
 .cta-button:hover:not(:disabled) {
@@ -200,7 +201,18 @@ thead th {
   font-weight: 500;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 tbody tr:nth-child(even) {
   background-color: #f8f9fa;
+}
+
+/* === NEW for unmatched rows preview === */
+#unmatchedHeader {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--error-color);
 }
